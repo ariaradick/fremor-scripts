@@ -644,7 +644,7 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "u_ref": {
+        "uas": {
             "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
@@ -680,7 +680,7 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "v_ref": {
+        "vas": {
             "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
