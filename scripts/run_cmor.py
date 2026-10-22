@@ -88,7 +88,6 @@ def main():
                 pathlib.Path(args.out_dir) / (args.realm+'.'+args.in_var) / exp_name / member_id
             ]
         )
-        break
 
 if __name__=='__main__':
     main()
