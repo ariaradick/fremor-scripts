@@ -16,7 +16,8 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument('catalog_url')
 parser.add_argument('--realm', required=True)
-parser.add_argument('--variable_id', required=True)
+parser.add_argument('--in_var', required=True)
+parser.add_argument('--out_var', required=True)
 parser.add_argument(
     '--tmp_dir', 
     default=(basePath / 'tmp')
@@ -48,9 +49,8 @@ def main():
     df = pl.read_csv(args.catalog_url)
 
     res = df.filter((pl.col("realm") == args.realm) &
-            (pl.col("variable_id") == args.variable_id))
-    # varList = {args.variable_id : args.variable_id}
-    varList = {"omega" : "wap"}
+            (pl.col("variable_id") == args.in_var))
+    varList = {args.in_var : args.out_var}
     
     with open(tmp_path / 'varlist.json', 'w') as f:
         json.dump(varList, f)
@@ -65,8 +65,8 @@ def main():
             filePath = pathlib.Path(p)
             linkPath = linkDir / filePath.name
             linkPath.symlink_to(filePath)
-        if args.variable_id:
-            jobName = f"cmor.{args.variable_id}.{args.realm}.{exp_name}.{member_id}"
+        if args.in_var:
+            jobName = f"cmor.{args.in_var}.{args.realm}.{exp_name}.{member_id}"
         else:
             jobName = f"cmor.{args.realm}.{exp_name}.{member_id}"
         logPath = '/'.join(['logs',exp_name,member_id,args.realm,jobName+'.%j'])
@@ -85,7 +85,7 @@ def main():
                 tmp_path / 'varlist.json',
                 basePath / 'tables' / table_dict[args.realm],
                 basePath / 'tables' / exp_name / f'{exp_name}_{member_id}.json',
-                pathlib.Path(args.out_dir) / (args.realm+'.'+args.variable_id) / exp_name / member_id
+                pathlib.Path(args.out_dir) / (args.realm+'.'+args.in_var) / exp_name / member_id
             ]
         )
         break
